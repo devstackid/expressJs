@@ -1,6 +1,7 @@
-const express = require('express')
+const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
-const app = express()
+const morgan = require('morgan');
+const app = express();
 const port = 3000
 
 
@@ -8,6 +9,18 @@ const port = 3000
 app.set('view engine', 'ejs');
 
 app.use(expressLayouts);
+
+// Built-in Middleware
+app.use(express.static('public'))
+
+// Third Party Middleware
+app.use(morgan('dev'));
+
+// application level middleware - harus dituliskan diatas
+app.use((req, res, next) => {
+  console.log('Time : ' , Date.now())
+  next();
+});
 
 
 app.get('/', (req, res) => {
